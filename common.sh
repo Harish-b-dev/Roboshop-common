@@ -87,13 +87,14 @@ node_unzip_setup(){
 }
 
 mvn_unzip_setup(){
+    cd /app
     rm -rf /app/*
 
     unzip /tmp/shipping.zip &>> $log_file
-
+    
     mvn clean package &>> $log_file
     mv target/shipping-1.0.jar shipping.jar &>> $log_file
-    VALIDATE $? "hipping-1.0.jar shipping.jar ... name updated"
+    VALIDATE $? "shipping-1.0.jar shipping.jar ... name updated"
 
     cp $Working_dir/Roboshop/shipping.service /etc/systemd/system/shipping.service
 
