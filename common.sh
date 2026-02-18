@@ -44,16 +44,53 @@ VALIDATE(){
     fi
 }
 
+node_setup(){
+    dnf module disable nodejs -y &>> $log_file
+    VALIDATE $? "nodejs disabled"
+
+    dnf module enable nodejs:20 -y &>> $log_file
+    VALIDATE $? "nodejs version 20 enabled"
+
+    dnf install nodejs -y&>> $log_file
+    VALIDATE $? "nodejs installed"
+}
+
+app_setup(){
+    id roboshop &>> $log_file
+    if [ $? -ne 0 ]; then
+        useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop 
+        VALIDATE $? "adding user"
+    else
+        echo "Roboshop user already exists"
+    fi
+
+    mkdir -p /app 
+
+
+    curl -o /tmp/$service_name.zip https://roboshop-artifacts.s3.amazonaws.com/$service_name-v3.zip &>> $log_file
+    cd /app
+
+    rm -rf /app/*
+
+    unzip /tmp/$service_name.zip &>> $log_file
+
+    npm install &>> $log_file
+
+    cp $Working_dir/$service_name.service /etc/systemd/system/$service_name.service
+
+    systemctl daemon-reload
+}
+
 enable_start(){
 
     systemctl enable $1 &>> $log_file
-    VALIDATE $? "enabled ... mongodb"
+    VALIDATE $? "enabled ... $1"
 
     systemctl start $1 &>> $log_file
-    VALIDATE $? "started ... mongodb"
+    VALIDATE $? "started ... $1"
 
     systemctl restart $1 &>> $log_file
-    VALIDATE $? "started ... mongodb"
+    VALIDATE $? "started ...$1"
 }
 
 
