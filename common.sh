@@ -1,8 +1,8 @@
 #!/bin/shell
 
-Start_time(){
-    echo "Script execution started at $(date +"%d-%m-%Y -- %H:%M:%S")"
-}
+
+echo "Script execution started at $(date +"%d-%m-%Y -- %H:%M:%S")"
+
 
 
 user=$(id -u)
