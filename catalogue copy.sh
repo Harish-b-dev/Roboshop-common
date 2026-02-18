@@ -19,7 +19,7 @@ INDEX=$(mongosh --host $Mongodb_host --quiet  --eval 'db.getMongo().getDBNames()
 
 if [ $INDEX -le 0 ]; then
     mongosh --host $Mongodb_host </app/db/master-data.js &>> $log_file
-    VALIDATE $? "schema loading"
+    validate $? "schema loading"
 else
     echo -e "schem is already loaded ... $Y skipping $N" | tee -a $log_file
 
