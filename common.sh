@@ -96,7 +96,7 @@ mvn_unzip_setup(){
     mv target/shipping-1.0.jar shipping.jar &>> $log_file
     VALIDATE $? "shipping-1.0.jar shipping.jar ... name updated"
 
-    cp $Working_dir/Roboshop/shipping.service /etc/systemd/system/shipping.service
+    cp $Working_dir/$service_name.service /etc/systemd/system/$service_name.service
 
     systemctl daemon-reload
 }
