@@ -12,6 +12,8 @@ sudo_check
 dnf install maven -y &>> $log_file
 VALIDATE $? "maven installed"
 
+app_setup
+
 mvn_unzip_setup
 
 enable_start $service_name
