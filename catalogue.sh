@@ -25,7 +25,7 @@ else
 
 fi
 
-enable_start catalogue
+enable_start $service_name
 
 
 end_time
