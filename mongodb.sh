@@ -5,8 +5,6 @@ file_name=$0
 
 source ./common.sh
 
-start_time
-
 sudo_check
 
 
