@@ -12,6 +12,7 @@ command_type=$1
 start_time=$(date +%s)
 Working_dir="/home/ec2-user/Roboshop-common"
 Mongodb_host="mongodb.learndaws88s.online"
+mysql_host="mysql.learndaws88s.online"
 
 #set -e
 #trap 'echo "there is an error at $LINENO, command :: $BASH_COMMAND"' ERR
@@ -70,6 +71,10 @@ app_setup(){
     curl -o /tmp/$service_name.zip https://roboshop-artifacts.s3.amazonaws.com/$service_name-v3.zip &>> $log_file
     cd /app
 
+}
+
+node_unzip_setup(){
+
     rm -rf /app/*
 
     unzip /tmp/$service_name.zip &>> $log_file
@@ -77,6 +82,20 @@ app_setup(){
     npm install &>> $log_file
 
     cp $Working_dir/$service_name.service /etc/systemd/system/$service_name.service
+
+    systemctl daemon-reload
+}
+
+mvn_unzip_setup(){
+    rm -rf /app/*
+
+    unzip /tmp/shipping.zip &>> $log_file
+
+    mvn clean package &>> $log_file
+    mv target/shipping-1.0.jar shipping.jar &>> $log_file
+    VALIDATE $? "hipping-1.0.jar shipping.jar ... name updated"
+
+    cp $Working_dir/Roboshop/shipping.service /etc/systemd/system/shipping.service
 
     systemctl daemon-reload
 }

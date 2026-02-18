@@ -11,6 +11,8 @@ node_setup
 
 app_setup
 
+node_unzip_setup
+
 cp $Working_dir/mongo.repo /etc/yum.repos.d/mongo.repo
 
 dnf install mongodb-mongosh -y &>> $log_file

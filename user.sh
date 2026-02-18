@@ -13,6 +13,8 @@ node_setup
 
 app_setup
 
+node_unzip_setup
+
 enable_start $service_name
 
 end_time
