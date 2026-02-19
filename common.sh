@@ -104,6 +104,21 @@ python_unzip_setup(){
     pip3 install -r requirements.txt &>> $log_file
 }
 
+nginx_unzip_setup(){
+    rm -rf /usr/share/nginx/html/*
+
+    curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip &>> $log_file
+
+    cd /usr/share/nginx/html
+    unzip /tmp/frontend.zip &>> $log_file
+    VALIDATE $? "Nginx page unziped"
+
+    rm -rf /etc/nginx/nginx.conf
+
+    cp /home/ec2-user/Roboshop/nginx.conf /etc/nginx/nginx.conf
+    VALIDATE $? "nginx.conf updated"
+}
+
 create_service(){
     cp $Working_dir/$service_name.service /etc/systemd/system/$service_name.service
 
