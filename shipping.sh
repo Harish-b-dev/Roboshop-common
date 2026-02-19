@@ -7,19 +7,16 @@ source ./common.sh
 
 sudo_check
 
-
-
-dnf install maven -y &>> $log_file
-VALIDATE $? "maven installed"
-
 app_setup
 
 mvn_unzip_setup
 
+create_service
+
 enable_start $service_name
 
 
-dnf install mysql -y 
+dnf install mysql -y &>> $log_file
 VALIDATE $? "installing mysql"
 
 DB_USER="root"

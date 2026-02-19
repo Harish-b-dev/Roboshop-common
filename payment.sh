@@ -1,7 +1,7 @@
 #!/bin/shell
 
 file_name=$0
-service_name=cart
+service_name=payment
 
 source ./common.sh
 
@@ -9,10 +9,10 @@ sudo_check
 
 app_setup
 
-node_unzip_setup
+python_unzip_setup
 
 create_service
 
-enable_start cart
+enable_start $service_name
 
 end_time

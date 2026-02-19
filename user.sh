@@ -8,12 +8,11 @@ source ./common.sh
 
 sudo_check
 
-
-node_setup
-
 app_setup
 
 node_unzip_setup
+
+create_service
 
 enable_start $service_name
 

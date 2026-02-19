@@ -45,16 +45,6 @@ VALIDATE(){
     fi
 }
 
-node_setup(){
-    dnf module disable nodejs -y &>> $log_file
-    VALIDATE $? "nodejs disabled"
-
-    dnf module enable nodejs:20 -y &>> $log_file
-    VALIDATE $? "nodejs version 20 enabled"
-
-    dnf install nodejs -y&>> $log_file
-    VALIDATE $? "nodejs installed"
-}
 
 app_setup(){
     id roboshop &>> $log_file
@@ -74,19 +64,26 @@ app_setup(){
 }
 
 node_unzip_setup(){
+    dnf module disable nodejs -y &>> $log_file
+    VALIDATE $? "nodejs disabled"
+
+    dnf module enable nodejs:20 -y &>> $log_file
+    VALIDATE $? "nodejs version 20 enabled"
+
+    dnf install nodejs -y&>> $log_file
+    VALIDATE $? "nodejs installed"
 
     rm -rf /app/*
 
     unzip /tmp/$service_name.zip &>> $log_file
 
     npm install &>> $log_file
-
-    cp $Working_dir/$service_name.service /etc/systemd/system/$service_name.service
-
-    systemctl daemon-reload
 }
 
 mvn_unzip_setup(){
+    dnf install maven -y &>> $log_file
+    VALIDATE $? "maven installed"
+
     rm -rf /app/*
 
     unzip /tmp/shipping.zip &>> $log_file
@@ -94,7 +91,20 @@ mvn_unzip_setup(){
     mvn clean package &>> $log_file
     mv target/shipping-1.0.jar shipping.jar &>> $log_file
     VALIDATE $? "shipping-1.0.jar shipping.jar ... name updated"
+}
 
+python_unzip_setup(){
+    dnf install python3 gcc python3-devel -y &>> $log_file
+    VALIDATE $? "python3 gcc python3-devel installation"
+
+    rm -rf /app/*
+
+    unzip /tmp/payment.zip &>> $log_file
+
+    pip3 install -r requirements.txt &>> $log_file
+}
+
+create_service(){
     cp $Working_dir/$service_name.service /etc/systemd/system/$service_name.service
 
     systemctl daemon-reload
