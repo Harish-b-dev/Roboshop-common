@@ -87,7 +87,6 @@ node_unzip_setup(){
 }
 
 mvn_unzip_setup(){
-    cd /app
     rm -rf /app/*
 
     unzip /tmp/shipping.zip &>> $log_file
