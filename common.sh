@@ -115,7 +115,7 @@ nginx_unzip_setup(){
 
     rm -rf /etc/nginx/nginx.conf
 
-    cp /home/ec2-user/Roboshop/nginx.conf /etc/nginx/nginx.conf
+    cp $Working_dir/nginx.conf /etc/nginx/nginx.conf
     VALIDATE $? "nginx.conf updated"
 }
 
